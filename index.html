@@ -1,103 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website - Home</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>SmartAngio Tools</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
         }
-
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        h1 {
+            width: 90%;
+            max-width: 800px;
             text-align: center;
-            color: #333;
         }
-
         .tools {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin-top: 30px;
+            flex-direction: column;
+            gap: 20px;
         }
-
         .tool {
             background: #fff;
             padding: 20px;
-            border-radius: 5px;
-            width: 30%;
-            margin: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.2s;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .tool:hover {
-            transform: scale(1.05);
-        }
-
         .tool h2 {
-            color: #007BFF;
+            margin-top: 0;
         }
-
-        .tool p {
-            color: #555;
-        }
-
         .tool a {
             display: inline-block;
             margin-top: 10px;
-            padding: 10px 15px;
-            background: #007BFF;
+            padding: 10px 20px;
             color: #fff;
+            background-color: #007BFF;
             text-decoration: none;
-            border-radius: 3px;
-            transition: background-color 0.2s;
+            border-radius: 5px;
         }
-
         .tool a:hover {
-            background: #0056b3;
+            background-color: #0056b3;
+        }
+        @media (min-width: 768px) {
+            .tools {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .tool {
+                flex: 1 1 calc(33% - 20px);
+                margin: 10px;
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1></h1>
+        <h1>SmartAngio Tools</h1>
         <p>Select a tool below to get started:</p>
-
         <div class="tools">
             <div class="tool">
                 <h2>Bone Subtraction Tool</h2>
                 <p>An advanced tool to analyze and subtract bone structures from medical imaging data.</p>
-                <a href="/bone-subtraction" target="_blank">Launch Tool</a>
+                <a href="/bone_subtraction/">Launch Bone Subtraction Tool</a>
             </div>
-
             <div class="tool">
                 <h2>Limited Views 3D Generation</h2>
                 <p>Generate 3D models from limited input views using our intuitive 3D rendering engine.</p>
                 <a href="/3d-generation">Launch 3D Generator</a>
             </div>
-
             <div class="tool">
                 <h2>DIRT Project</h2>
                 <p>Explore the DIRT project - a comprehensive tool for data analysis and research integration.</p>
-                <a href="/dirt">Explore DIRT</a>
+                <a href="/dirt/">Explore DIRT</a>
             </div>
         </div>
     </div>
 </body>
-
 </html>
+

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Mask Subtraction with AI **TEST**</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #e0e0e0;
+            --accent-color: #4a69bd;
+            --accent-hover: #6a89cc;
+            --warning-color: #c0392b;
+            --instruction-bg: #16213e;
+            --input-bg: #0f3460;
+            --engage-ready-color: rgba(255, 217, 0, 0.631);
+            --engage-hover-color: #f5c500;
+            --engage-disabled-color: grey;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .loading-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        .loading-message {
+            color: var(--text-color);
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #808080;
+            text-align: center;
+            font-size: 1.3em;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+        }
+        #paste-area {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed var(--accent-color);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            background-color: var(--input-bg);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #paste-area:hover {
+            background-color: var(--instruction-bg);
+        }
+        #paste-area img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        #upload-form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #file-input, #capture-input {
+            display: none;
+        }
+        .button {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+            flex-grow: 1;
+            margin: 0 3px;
+        }
+        .button:hover {
+            background-color: var(--accent-hover);
+        }
+        .engage-button {
+            background-color: var(--engage-disabled-color);
+        }
+        .engage-button.ready {
+            background-color: var(--engage-ready-color);
+            cursor: pointer;
+        }
+        .engage-button.ready:hover {
+            background-color: var(--engage-hover-color);
+        }
+        .engage-button:disabled {
+            background-color: var(--engage-disabled-color);
+            cursor: not-allowed;
+        }
+        .sample-container {
+            margin: 10px 0;
+            text-align: center;
+        }
+        .sample-container button {
+            margin: 3px;
+            padding: 8px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+        .sample-container button:hover {
+            background-color: var(--accent-hover);
+        }
+        #output-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+        #output-image {
+            max-width: 256px;
+            max-height: 256px;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+        .logos {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .logo {
+            width: 150px;
+            height: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .contact-info {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .contact-info p {
+            margin: 3px 0;
+        }
+        .contact-info a {
+            color: gold;
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .instructions {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .instructions h3 {
+            margin: 5px 0;
+        }
+        .instructions ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>No Mask Subtraction with AI</h1>
+
+    <div class="warning">
+        NOT FOR MEDICAL USE - JUST A TRIAL SITE!<br>
+        DO NOT SHARE PATIENT INFO!
+    </div>
+
+    <div class="instructions">
+        <h3>How to use:</h3>
+        <ul>
+            <li>Desktop: Press Windows key + Shift + S to capture, then paste (CTRL+V)</li>
+            <li>Mobile/Desktop: Drag and drop an image file</li>
+            <li>Mobile: Take a picture with your camera</li>
+            <li>Select a file from your device</li>
+            <li>Or Click a sample button below and 'Run Model'</li>
+        </ul>
+    </div>
+
+    <div class="sample-container">
+        <button onclick="submitSample('static/sample1.png')">Celiac</button>
+        <button onclick="submitSample('static/sample2.png')">Hepatic A</button>
+        <button onclick="submitSample('static/sample3.png')">Coronary</button>
+    </div>
+
+    <div id="paste-area">
+        <p>Click to upload or paste an image here</p>
+    </div>
+
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file-input" name="file" accept="image/*">
+        <input type="file" id="capture-input" name="file" accept="image/*" capture="environment">
+        <button type="button" class="button" onclick="document.getElementById('file-input').click()">Choose File</button>
+        <button type="button" class="button" onclick="document.getElementById('capture-input').click()">📷 Take Picture</button>
+        <button type="submit" class="button engage-button" id="engage-button" disabled>Run Model</button>
+    </form>
+
+    <div id="output-container">
+        <img id="output-image" style="display: none;">
+    </div>
+
+    <div class="logos">
+        <div class="logo">
+            <img src="static/logo1.png" alt="Logo 1" class="logo-image">
+        </div>
+        <div class="logo">
+            <img src="static/logo2.png" alt="Logo 2" class="logo-image">
+        </div>
+    </div>
+
+    <div class="contact-info">
+        <p>Conatct: <a href="mailto:cohenemil@gmail.com">cohenemil@gmail.com</a></p>
+        <p>Our team: Emil Cohen, MD FSIR; Muhammad Bilal, PhD; and Joshua Halpern</p>
+    </div>
+
+    <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-message">Processing image...</div>
+    </div>
+
+    <script>
+        const pasteArea = document.getElementById('paste-area');
+        const fileInput = document.getElementById('file-input');
+        const captureInput = document.getElementById('capture-input');
+        const form = document.getElementById('upload-form');
+        const outputImage = document.getElementById('output-image');
+        const engageButton = document.getElementById('engage-button');
+        const loadingContainer = document.getElementById('loading-container');
+        let resizedFile;
+
+        // Debounce function to limit rapid clicking
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Apply debounce to button click handlers
+        const debouncedSubmitSample = debounce(submitSample, 500);
+        const debouncedHandleImageFile = debounce(handleImageFile, 500);
+
+        // Submit sample cases
+        function submitSample(samplePath) {
+            fetch(samplePath)
+                .then(response => response.blob())
+                .then(blob => {
+                    handleImageFile(blob);
+                    engageButton.click();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error loading the sample image.');
+                });
+        }
+
+        // Listen for paste events on the entire document
+        document.addEventListener('paste', function (event) {
+            const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (let index in items) {
+                const item = items[index];
+                if (item.kind === 'file' && item.type.startsWith('image/')) {
+                    const blob = item.getAsFile();
+                    debouncedHandleImageFile(blob);
+                }
+            }
+        });
+
+        pasteArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function (event) {
+            if (event.target.files && event.target.files[0]) {
+                debouncedHandleImageFile(event.target.files[0]);
+            }
+        });
+
+        captureInput.addEventListener('change', function (event) {
+            if (event.target.files && event.target.files[0]) {
+                debouncedHandleImageFile(event.target.files[0]);
+            }
+        });
+
+        function handleImageFile(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 256;
+                    canvas.height = 256;
+                    ctx.drawImage(img, 0, 0, 256, 256);
+
+                    const dataURL = canvas.toDataURL('image/png');
+                    const blob = dataURLToBlob(dataURL);
+                    resizedFile = new File([blob], 'resized_image.png', { type: 'image/png' });
+
+                    pasteArea.innerHTML = '';
+                    const resizedImg = new Image();
+                    resizedImg.src = dataURL;
+                    resizedImg.onload = function() {
+                        URL.revokeObjectURL(resizedImg.src); 
+                    };
+                    pasteArea.appendChild(resizedImg);
+
+                    engageButton.disabled = false;
+                    engageButton.classList.add('ready');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function dataURLToBlob(dataURL) {
+            const parts = dataURL.split(',');
+            const byteString = atob(parts[1]);
+            const mimeString = parts[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+        }
+
+        const debouncedSubmit = debounce(function(formData) {
+            // Show loading indicator
+            loadingContainer.style.display = 'flex';
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                outputImage.src = url;
+                outputImage.style.display = 'block';
+                engageButton.disabled = false;
+                engageButton.classList.add('ready');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error processing your image.');
+                engageButton.disabled = false;
+                engageButton.classList.add('ready');
+            })
+            .finally(() => {
+                // Hide loading indicator
+                loadingContainer.style.display = 'none';
+            });
+        }, 1000);
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            engageButton.disabled = true;
+            engageButton.classList.remove('ready');
+
+            const formData = new FormData();
+            formData.append('file', resizedFile);
+
+            debouncedSubmit(formData);
+        });
+
+        // Prevent default drag-and-drop behavior
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            pasteArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Handle dropped files
+        pasteArea.addEventListener('drop', function(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            if (files.length) {
+                debouncedHandleImageFile(files[0]);
+            }
+        }, false);
+
+        // Update onclick handlers for sample buttons
+        document.querySelectorAll('.sample-container button').forEach(button => {
+            const samplePath = button.getAttribute('onclick').match(/'(.+)'/)[1];
+            button.onclick = () => debouncedSubmitSample(samplePath);
+        });
+    </script>
+</body>
+</html>
