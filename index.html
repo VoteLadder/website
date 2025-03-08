@@ -13,7 +13,7 @@
             --text: #1e293b;
             --text-light: #64748b;
         }
-
+        
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             margin: 0;
@@ -22,19 +22,19 @@
             color: var(--text);
             line-height: 1.6;
         }
-
+        
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
         }
-
+        
         .header {
             text-align: center;
             margin-bottom: 60px;
         }
-
+        
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 0;
@@ -43,20 +43,20 @@
             -webkit-text-fill-color: transparent;
             animation: fadeIn 0.8s ease-out;
         }
-
+        
         .header p {
             font-size: 1.2rem;
             color: var(--text-light);
             margin-top: 1rem;
         }
-
+        
         .tools {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             animation: slideUp 0.8s ease-out;
         }
-
+        
         .tool {
             background: var(--card-bg);
             border-radius: 16px;
@@ -68,12 +68,12 @@
             align-items: center;
             text-align: center;
         }
-
+        
         .tool:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-
+        
         .tool-icon {
             width: 80px;
             height: 80px;
@@ -81,19 +81,19 @@
             border-radius: 12px;
             object-fit: cover;
         }
-
+        
         .tool h2 {
             font-size: 1.5rem;
             margin: 0 0 15px 0;
             color: var(--text);
         }
-
+        
         .tool p {
             color: var(--text-light);
             margin: 0 0 25px 0;
             flex-grow: 1;
         }
-
+        
         .tool a {
             display: inline-block;
             padding: 12px 24px;
@@ -106,16 +106,16 @@
             width: 100%;
             box-sizing: border-box;
         }
-
+        
         .tool a:hover {
             background-color: var(--primary-dark);
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
+        
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -126,17 +126,17 @@
                 transform: translateY(0);
             }
         }
-
+        
         @media (max-width: 768px) {
             .container {
                 width: 95%;
                 padding: 10px;
             }
-
+            
             .header h1 {
                 font-size: 2rem;
             }
-
+            
             .tool {
                 padding: 20px;
             }
@@ -157,29 +157,35 @@
                 <p>Advanced algorithms to precisely isolate and remove bone structures from medical imaging data, enhancing vessel visibility.</p>
                 <a href="/bone_subtraction/">Launch Tool →</a>
             </div>
-
+            
             <div class="tool">
                 <img src="images/reference-checker-icon.png" alt="Reference Icon" class="tool-icon">
                 <h2>Reference Checker</h2>
                 <p>Streamline your research with our automated citation verification system, ensuring accuracy and compliance.</p>
                 <a href="/reference_checker/">Check References →</a>
             </div>
-
+            
             <div class="tool">
                 <img src="images/dirt-icon.png" alt="DIRT Icon" class="tool-icon">
                 <h2>DIRT Project</h2>
                 <p>Comprehensive data analysis and research integration platform for advanced medical imaging studies.</p>
                 <a href="/dirt/">Explore DIRT →</a>
             </div>
-
+            
             <div class="tool">
                 <img src="images/3d-generation-icon.png" alt="3D Generation Icon" class="tool-icon">
                 <h2>Limited Views 3D Generation</h2>
                 <p>Transform limited 2D views into comprehensive 3D models using our state-of-the-art rendering engine.</p>
                 <a href="/3d-generation">Generate 3D Model →</a>
             </div>
+            
+            <div class="tool">
+                <img src="images/denoisevision-icon.png" alt="DenoiseVision Icon" class="tool-icon">
+                <h2>DenoiseVision</h2>
+                <p>Evaluate and compare  X-ray denoising technique.</p>
+                <a href="/denoisevision/">Start Evaluation →</a>
+            </div>
         </div>
     </div>
 </body>
 </html>
-
