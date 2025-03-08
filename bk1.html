@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartAngio Tools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .tools {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .tool {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .tool h2 {
+            margin-top: 0;
+        }
+        .tool a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .tool a:hover {
+            background-color: #0056b3;
+        }
+        @media (min-width: 768px) {
+            .tools {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .tool {
+                flex: 1 1 calc(33% - 20px);
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SmartAngio Tools</h1>
+        <p>Select a tool below to get started:</p>
+        <div class="tools">
+            <div class="tool">
+                <h2>Bone Subtraction Tool</h2>
+                <p>An advanced tool to analyze and subtract bone structures from medical imaging data.</p>
+                <a href="/bone_subtraction/">Launch Bone Subtraction Tool</a>
+            </div>
+            <div class="tool">
+                <h2>Limited Views 3D Generation</h2>
+                <p>Generate 3D models from limited input views using our intuitive 3D rendering engine.</p>
+                <a href="/3d-generation">Launch 3D Generator</a>
+            </div>
+            <div class="tool">
+                <h2>Reference Checker</h2>
+                <p>Automatically verify and analyze citations in research papers with real-time verification against source materials.</p>
+                <a href="/reference_checker/">Launch Reference Checker</a>
+            </div>
+            <div class="tool">
+                <h2>DIRT Project</h2>
+                <p>Explore the DIRT project - a comprehensive tool for data analysis and research integration.</p>
+                <a href="/dirt/">Explore DIRT</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
